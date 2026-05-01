@@ -1,0 +1,91 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 38, 16, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #FDFAF3;
+  border-radius: 12px;
+  border: 1px solid #E2DECE;
+  width: min(500px, 94vw);
+  padding: 26px;
+}
+
+.modal__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #1A2610;
+  margin-bottom: 20px;
+}
+
+.modal__label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #4A5640;
+  margin-bottom: 5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.modal__input {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid #E2DECE;
+  background: #F5F0E4;
+  color: #1A2610;
+  font-size: 14px;
+  font-family: 'Instrument Sans', sans-serif;
+  margin-bottom: 14px;
+}
+
+.modal__input:focus {
+  border-color: #5C7A28;
+}
+
+.modal__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.modal__btn--cancel {
+  padding: 9px 20px;
+  border-radius: 8px;
+  border: 1px solid #E2DECE;
+  background: transparent;
+  color: #4A5640;
+  font-size: 14px;
+  font-family: 'Instrument Sans', sans-serif;
+  cursor: pointer;
+}
+
+.modal__btn--save {
+  padding: 9px 22px;
+  border-radius: 8px;
+  border: none;
+  background: #5C7A28;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Instrument Sans', sans-serif;
+  cursor: pointer;
+}
+
+.modal__btn--save:hover {
+  background: #4A6320;
+}

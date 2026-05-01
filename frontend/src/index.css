@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background: #F5F0E4;
+  color: #1A2610;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  font-size: 14px;
+}
+
+input, select, textarea {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+}

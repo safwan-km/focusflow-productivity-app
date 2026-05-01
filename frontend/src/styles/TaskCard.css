@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap');
+
+.task-card {
+  background: #FDFAF3;
+  border: 1px solid #EDE8D8;
+  border-radius: 10px;
+  padding: 15px 18px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.task-card:hover {
+  border-color: #E2DECE;
+  box-shadow: 0 3px 14px rgba(26, 38, 16, 0.08);
+}
+
+.task-card.done {
+  opacity: 0.7;
+}
+
+/* ── Top row: checkbox + title + buttons ── */
+.task-card__top {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.task-card__checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  border: 1.5px solid #8A9480;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.task-card__checkbox.checked {
+  background: #7A9A48;
+  border-color: #7A9A48;
+}
+
+.task-card__title {
+  flex: 1;
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1A2610;
+  line-height: 1.4;
+}
+
+.task-card__title.done {
+  text-decoration: line-through;
+}
+
+.task-card__actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.task-card:hover .task-card__actions {
+  opacity: 1;
+}
+
+.task-card__btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.task-card__btn--edit {
+  background: #E8F0DC;
+  color: #3A5A18;
+}
+
+.task-card__btn--delete {
+  background: #F5E0D8;
+  color: #7A2810;
+}
+
+/* ── Description ── */
+.task-card__description {
+  font-size: 13px;
+  color: #8A9480;
+  margin: 0 0 10px 28px;
+  line-height: 1.55;
+}
+
+/* ── Footer: pills + due date ── */
+.task-card__footer {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  padding-left: 28px;
+}
+
+.task-card__due {
+  margin-left: auto;
+  font-size: 12px;
+  color: #8A9480;
+}
+
+.task-card__due.overdue {
+  color: #7A2810;
+  font-weight: 600;
+}
+
+/* ── Reusable pills ── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+.pill__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
