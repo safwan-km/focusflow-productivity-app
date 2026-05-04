@@ -1,0 +1,342 @@
+.timer-page {
+  min-height: 100vh;
+  background: #F5F0E4;
+  padding: 40px 40px;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+/* ── Header ── */
+.timer-header {
+  margin-bottom: 40px;
+}
+
+.timer-header__label {
+  font-size: 11px;
+  color: #8A9480;
+  margin: 0 0 4px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.timer-header__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: #1A2610;
+  margin: 0;
+}
+
+/* ── Layout ── */
+.timer-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── Timer Card ── */
+.timer-card {
+  background: #FDFAF3;
+  border: 1px solid #EDE8D8;
+  border-radius: 16px;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Mode Tabs ── */
+.timer-modes {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 48px;
+  background: #F5F0E4;
+  padding: 4px;
+  border-radius: 10px;
+}
+
+.timer-mode-btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #8A9480;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Instrument Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.timer-mode-btn.active {
+  background: #FDFAF3;
+  color: #1A2610;
+  box-shadow: 0 1px 4px rgba(26, 38, 16, 0.08);
+}
+
+/* ── Circle Timer ── */
+.timer-circle-wrap {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin-bottom: 48px;
+}
+
+.timer-circle-svg {
+  width: 260px;
+  height: 260px;
+  transform: rotate(-90deg);
+}
+
+.timer-circle-bg {
+  fill: none;
+  stroke: #EDE8D8;
+  stroke-width: 8;
+}
+
+.timer-circle-progress {
+  fill: none;
+  stroke: #5C7A28;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.timer-circle-progress.break {
+  stroke: #B87820;
+}
+
+.timer-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.timer-display__time {
+  font-family: 'Playfair Display', serif;
+  font-size: 52px;
+  font-weight: 500;
+  color: #1A2610;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.timer-display__mode {
+  font-size: 12px;
+  color: #8A9480;
+  margin-top: 6px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── Controls ── */
+.timer-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.timer-btn--secondary {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid #E2DECE;
+  background: transparent;
+  color: #8A9480;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.timer-btn--secondary:hover {
+  background: #EDE8D8;
+  color: #1A2610;
+}
+
+.timer-btn--primary {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: none;
+  background: #5C7A28;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  box-shadow: 0 4px 16px rgba(92, 122, 40, 0.3);
+}
+
+.timer-btn--primary:hover {
+  background: #4A6320;
+}
+
+.timer-btn--primary svg {
+  width: 28px;
+  height: 28px;
+}
+
+.timer-btn--secondary svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Sessions count ── */
+.timer-sessions {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timer-sessions__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #EDE8D8;
+  transition: background 0.3s;
+}
+
+.timer-sessions__dot.completed {
+  background: #5C7A28;
+}
+
+.timer-sessions__label {
+  font-size: 12px;
+  color: #8A9480;
+  margin-left: 4px;
+}
+
+/* ── Side Panel ── */
+.timer-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Task Selector ── */
+.timer-task-card {
+  background: #FDFAF3;
+  border: 1px solid #EDE8D8;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.timer-task-card__title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8A9480;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.timer-task-select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #E2DECE;
+  background: #F5F0E4;
+  color: #1A2610;
+  font-size: 13px;
+  font-family: 'Instrument Sans', sans-serif;
+  outline: none;
+  cursor: pointer;
+}
+
+/* ── Today's Sessions ── */
+.timer-log-card {
+  background: #FDFAF3;
+  border: 1px solid #EDE8D8;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.timer-log-card__title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8A9480;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.timer-log-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #EDE8D8;
+}
+
+.timer-log-item:last-child {
+  border-bottom: none;
+}
+
+.timer-log-item__task {
+  font-size: 13px;
+  color: #1A2610;
+  font-weight: 500;
+}
+
+.timer-log-item__duration {
+  font-size: 12px;
+  color: #7A9A48;
+  font-weight: 600;
+}
+
+.timer-log-empty {
+  font-size: 13px;
+  color: #8A9480;
+  text-align: center;
+  padding: 16px 0;
+}
+
+/* ── Stats card ── */
+.timer-stats-card {
+  background: #FDFAF3;
+  border: 1px solid #EDE8D8;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.timer-stats-card__title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8A9480;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.timer-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.timer-stat {
+  background: #F5F0E4;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.timer-stat__label {
+  font-size: 11px;
+  color: #8A9480;
+  margin-bottom: 4px;
+}
+
+.timer-stat__value {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #1A2610;
+}

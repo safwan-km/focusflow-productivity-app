@@ -21,9 +21,9 @@ def create_task(task: schemas.TaskCreate, db: Session = Depends(get_db), current
 def get_tasks(status: Optional[str] = None, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     query = db.query(models.Task).filter(models.Task.user_id == current_user.id)
     if status == "pending":
-        query = query.filter(models.Task.is_done == False)
+        query = query.filter(models.Task.status == "todo")
     elif status == "done":
-        query = query.filter(models.Task.is_done == True)
+        query = query.filter(models.Task.status == "done")
     return query.order_by(models.Task.created_at.desc()).all()
 
 # ── Update Task ──

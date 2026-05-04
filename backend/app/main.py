@@ -62,13 +62,13 @@ def get_dashboard(db: Session = Depends(get_db), current_user: models.User = Dep
 
     tasks_today = db.query(models.Task).filter(
         models.Task.user_id == current_user.id,
-        models.Task.is_done == True,
+        models.Task.status == "done",
         func.date(models.Task.created_at) == today
     ).count()
 
     tasks_this_week = db.query(models.Task).filter(
         models.Task.user_id == current_user.id,
-        models.Task.is_done == True,
+        models.Task.status == "done",
         func.date(models.Task.created_at) >= week_ago
     ).count()
 

@@ -26,4 +26,11 @@ export const updateTask = (id, taskData) =>
 export const deleteTask = (id) =>
   api.delete(`/tasks/${id}`).then(res => res.data)
 
+// ── Sessions ──
+export const createSession = (sessionData) =>
+  api.post('/sessions', sessionData).then(res => res.data)
+
+export const fetchSessions = () =>
+  api.get('/sessions').then(res => res.data)
+
 export default api
