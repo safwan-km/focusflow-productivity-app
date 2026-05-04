@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import PrivateRoute from './components/PrivateRoute'
 import Navbar from './components/Navbar'
@@ -9,11 +9,19 @@ import Tasks from './pages/Tasks'
 import Timer from './pages/Timer'
 import Planner from './pages/Planner'
 
-function App() {
+function AppLayout() {
+  const location = useLocation()
+  const noSidebarPages = ['/login', '/register']
+  const showSidebar = !noSidebarPages.includes(location.pathname)
+
   return (
-    <AuthProvider>
+    <>
       <Navbar />
-      <div style={{ padding: '20px' }}>
+      <div style={{
+        marginLeft: showSidebar ? '240px' : '0',
+        minHeight: '100vh',
+        background: '#F5F0E4',
+      }}>
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/login" element={<Login />} />
@@ -24,6 +32,14 @@ function App() {
           <Route path="/planner" element={<PrivateRoute><Planner /></PrivateRoute>} />
         </Routes>
       </div>
+    </>
+  )
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppLayout />
     </AuthProvider>
   )
 }

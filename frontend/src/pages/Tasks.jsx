@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import TaskCard from '../components/TaskCard'
 import TaskModal from '../components/TaskModal'
+import { ToastContainer } from '../components/Toast'
+import { useToast } from '../hooks/useToast'
 import '../styles/Tasks.css'
 import { fetchTasks, createTask, updateTask, deleteTask } from '../api'
-
 
 function Tasks() {
   const [tasks, setTasks]     = useState([])
@@ -12,8 +13,8 @@ function Tasks() {
   const [filterS, setFilterS] = useState('all')
   const [modal, setModal]     = useState(null)
   const [loading, setLoading] = useState(true)
+  const { toasts, showToast, removeToast } = useToast()
 
-  // ── Load tasks from backend when page opens ──
   useEffect(() => {
     fetchTasks()
       .then(data => {
@@ -22,18 +23,17 @@ function Tasks() {
       })
       .catch(err => {
         console.error('Failed to fetch tasks:', err)
+        showToast('Failed to load tasks', 'error')
         setLoading(false)
       })
   }, [])
 
-  // ── Stats ──
   const total   = tasks.length
   const done    = tasks.filter(t => t.status === 'done').length
   const inProg  = tasks.filter(t => t.status === 'in_progress').length
   const overdue = tasks.filter(t => t.status !== 'done' && new Date(t.due_date) < new Date()).length
   const pct     = Math.round((done / total) * 100) || 0
 
-  // ── Filtered and sorted list ──
   const visible = tasks
     .filter(t => {
       if (filterP !== 'all' && t.priority !== filterP) return false
@@ -43,39 +43,56 @@ function Tasks() {
     })
     .sort((a, b) => new Date(a.due_date) - new Date(b.due_date))
 
-  // ── CRUD functions ──
-  // ── Save: handles both create and edit ──
   const handleSave = async (form) => {
-    console.log('Saving form:', form)
-    if (form.id) {
-      const updated = await updateTask(form.id, form)
-      setTasks(prev => prev.map(t => t.id === form.id ? updated : t))
-    } else {
-      const created = await createTask(form)
-      setTasks(prev => [...prev, created])
+    try {
+      if (form.id) {
+        const updated = await updateTask(form.id, form)
+        setTasks(prev => prev.map(t => t.id === form.id ? updated : t))
+        showToast('Task updated successfully')
+      } else {
+        const created = await createTask(form)
+        setTasks(prev => [...prev, created])
+        showToast('Task added successfully')
+      }
+      setModal(null)
+    } catch (err) {
+      showToast('Something went wrong', 'error')
     }
-    setModal(null)
   }
 
-  // ── Delete ──
   const handleDelete = async (id) => {
-    await deleteTask(id)
-    setTasks(prev => prev.filter(t => t.id !== id))
+    try {
+      await deleteTask(id)
+      setTasks(prev => prev.filter(t => t.id !== id))
+      showToast('Task deleted', 'info')
+    } catch (err) {
+      showToast('Failed to delete task', 'error')
+    }
   }
 
-  // ── Toggle done/todo ──
   const handleToggleDone = async (id) => {
-    const task = tasks.find(t => t.id === id)
-    const updated = await updateTask(id, {
-      ...task,
-      status: task.status === 'done' ? 'todo' : 'done'
-    })
-    setTasks(prev => prev.map(t => t.id === id ? updated : t))
+    try {
+      const task = tasks.find(t => t.id === id)
+      const updated = await updateTask(id, {
+        status: task.status === 'done' ? 'todo' : 'done'
+      })
+      setTasks(prev => prev.map(t => t.id === id ? updated : t))
+      showToast(
+        updated.status === 'done' ? 'Task completed!' : 'Task reopened',
+        updated.status === 'done' ? 'success' : 'info'
+      )
+    } catch (err) {
+      showToast('Failed to update task', 'error')
+    }
   }
+
   return (
     <div className="tasks-page">
 
-      {/* ── Header ── */}
+      {/* Toast Notifications */}
+      <ToastContainer toasts={toasts} removeToast={removeToast} />
+
+      {/* Header */}
       <div className="tasks-header">
         <div className="tasks-header__top">
           <div>
@@ -90,7 +107,7 @@ function Tasks() {
           </button>
         </div>
 
-        {/* ── Stats Strip ── */}
+        {/* Stats Strip */}
         <div className="tasks-stats">
           <div className="tasks-stats__item">
             <p className="tasks-stats__label">Total</p>
@@ -123,12 +140,10 @@ function Tasks() {
         </div>
       </div>
 
-      {/* ── Filter Bar ── */}
+      {/* Filter Bar */}
       <div className="tasks-filters">
         <div className="tasks-filters__search-wrap">
-          <span className="tasks-filters__search-icon">
-            🔍
-          </span>
+          <span className="tasks-filters__search-icon">🔍</span>
           <input
             className="tasks-filters__search"
             value={search}
@@ -164,6 +179,7 @@ function Tasks() {
         </span>
       </div>
 
+      {/* Task List */}
       {loading ? (
         <div className="tasks-empty">
           <p className="tasks-empty__title">Loading tasks...</p>
@@ -187,7 +203,7 @@ function Tasks() {
         </div>
       )}
 
-      {/* ── Modal ── */}
+      {/* Modal */}
       {modal && (
         <TaskModal
           task={modal === 'new' ? null : modal}

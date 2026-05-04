@@ -11,6 +11,7 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const res = await api.post('/auth/login', { email, password })
     localStorage.setItem('token', res.data.access_token)
+    localStorage.setItem('userEmail', email)
     setToken(res.data.access_token)
     navigate('/dashboard')
   }
@@ -22,9 +23,12 @@ export function AuthProvider({ children }) {
 
   const logout = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('userEmail')
     setToken(null)
     navigate('/login')
   }
+
+  
 
   return (
     <AuthContext.Provider value={{ token, login, register, logout }}>
