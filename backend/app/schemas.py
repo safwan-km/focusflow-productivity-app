@@ -25,6 +25,8 @@ class TaskCreate(BaseModel):
     due_date: Optional[str] = None
     estimated_mins: Optional[int] = 25
     notes: Optional[str] = None
+    category: Optional[str] = "General"
+    status: Optional[str] = "todo"
 
 class TaskUpdate(BaseModel):
     title: Optional[str] = None
@@ -32,7 +34,9 @@ class TaskUpdate(BaseModel):
     due_date: Optional[str] = None
     estimated_mins: Optional[int] = None
     notes: Optional[str] = None
-    is_done: Optional[bool] = None
+    status: Optional[str] = None
+    category: Optional[str] = None
+    
 
 class TaskOut(BaseModel):
     id: int
@@ -41,7 +45,8 @@ class TaskOut(BaseModel):
     due_date: Optional[str]
     estimated_mins: int
     notes: Optional[str]
-    is_done: bool
+    status: str
+    category: str
     created_at: datetime
     class Config:
         from_attributes = True

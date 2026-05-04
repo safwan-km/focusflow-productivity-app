@@ -25,7 +25,8 @@ class Task(Base):
     due_date = Column(String, nullable=True)
     estimated_mins = Column(Integer, default=25)
     notes = Column(Text, nullable=True)
-    is_done = Column(Boolean, default=False)
+    status = Column(String, default="todo")
+    category = Column(String, default="General")
     created_at = Column(DateTime, default=datetime.utcnow)
 
     owner = relationship("User", back_populates="tasks")

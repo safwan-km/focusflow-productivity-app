@@ -5,10 +5,10 @@ from auth import get_current_user
 import models, schemas
 from typing import List, Optional
 
-router = APIRouter(prefix="/tasks", tags=["Tasks"])
+router = APIRouter(prefix="/tasks", tags=["Tasks"],redirect_slashes=False)
 
 # ── Create Task ──
-@router.post("/", response_model=schemas.TaskOut)
+@router.post("", response_model=schemas.TaskOut)
 def create_task(task: schemas.TaskCreate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     new_task = models.Task(**task.dict(), user_id=current_user.id)
     db.add(new_task)
@@ -17,7 +17,7 @@ def create_task(task: schemas.TaskCreate, db: Session = Depends(get_db), current
     return new_task
 
 # ── Get All Tasks ──
-@router.get("/", response_model=List[schemas.TaskOut])
+@router.get("", response_model=List[schemas.TaskOut])
 def get_tasks(status: Optional[str] = None, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     query = db.query(models.Task).filter(models.Task.user_id == current_user.id)
     if status == "pending":

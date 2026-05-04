@@ -7,12 +7,14 @@ function TaskModal({ task, onClose, onSave }) {
   const isEditing = task !== null
 
   const [form, setForm] = useState({
-    title:       isEditing ? task.title       : '',
-    description: isEditing ? task.description : '',
-    priority:    isEditing ? task.priority    : 'medium',
-    status:      isEditing ? task.status      : 'todo',
-    due:         isEditing ? task.due         : '',
-    category:    isEditing ? task.category    : 'Frontend',
+    id:             isEditing ? task.id             : null,
+    title:          isEditing ? task.title          : '',
+    notes:          isEditing ? task.notes          : '',
+    priority:       isEditing ? task.priority       : 'medium',
+    status:         isEditing ? task.status         : 'todo',
+    due_date:       isEditing ? task.due_date       : '',
+    estimated_mins: isEditing ? task.estimated_mins : 25,
+    category:       isEditing ? task.category       : 'General',
   })
 
   const handleChange = (e) => {
@@ -28,7 +30,7 @@ function TaskModal({ task, onClose, onSave }) {
       alert('Please enter a title')
       return
     }
-    if (!form.due) {
+    if (!form.due_date) {
       alert('Please select a due date')
       return
     }
@@ -45,12 +47,11 @@ function TaskModal({ task, onClose, onSave }) {
     <div className="modal-overlay" onClick={handleOverlayClick}>
       <div className="modal">
 
-        {/* Title */}
         <h2 className="modal__title">
           {isEditing ? 'Edit Task' : 'New Task'}
         </h2>
 
-        {/* Task Title Input */}
+        {/* Title */}
         <label className="modal__label">Title *</label>
         <input
           className="modal__input"
@@ -60,12 +61,12 @@ function TaskModal({ task, onClose, onSave }) {
           placeholder="What needs doing?"
         />
 
-        {/* Description Input */}
-        <label className="modal__label">Description</label>
+        {/* Notes */}
+        <label className="modal__label">Notes</label>
         <textarea
           className="modal__input"
-          name="description"
-          value={form.description}
+          name="notes"
+          value={form.notes || ''}
           onChange={handleChange}
           placeholder="Optional notes…"
           rows={3}
@@ -113,8 +114,8 @@ function TaskModal({ task, onClose, onSave }) {
             <input
               className="modal__input"
               type="date"
-              name="due"
-              value={form.due}
+              name="due_date"
+              value={form.due_date || ''}
               onChange={handleChange}
             />
           </div>
@@ -135,6 +136,18 @@ function TaskModal({ task, onClose, onSave }) {
             </select>
           </div>
         </div>
+
+        {/* Estimated mins */}
+        <label className="modal__label">Estimated (mins)</label>
+        <input
+          className="modal__input"
+          type="number"
+          name="estimated_mins"
+          value={form.estimated_mins}
+          onChange={handleChange}
+          min={5}
+          max={240}
+        />
 
         {/* Buttons */}
         <div className="modal__actions">

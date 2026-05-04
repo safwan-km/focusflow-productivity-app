@@ -2,17 +2,17 @@ import '../styles/TaskCard.css'
 import { PRIORITY_META, STATUS_META } from '../constants/taskConfig'
 
 function TaskCard({ task, onEdit, onDelete, onToggleDone }) {
-  const isOverdue = task.status !== 'done' && new Date(task.due) < new Date()
-  const isDone = task.status === 'done'
 
-  const priority = PRIORITY_META[task.priority]
-  const status = STATUS_META[task.status]
+  const isOverdue = task.status !== 'done' && task.due_date && new Date(task.due_date) < new Date()
+  const isDone    = task.status === 'done'
+  const priority  = PRIORITY_META[task.priority] || PRIORITY_META['medium']
+  const status    = STATUS_META[task.status]     || STATUS_META['todo']
 
-  const formattedDate = new Date(task.due).toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
+  const formattedDate = task.due_date
+    ? new Date(task.due_date).toLocaleDateString('en-GB', {
+        day: 'numeric', month: 'short', year: 'numeric',
+      })
+    : 'No due date'
 
   return (
     <div
@@ -23,7 +23,6 @@ function TaskCard({ task, onEdit, onDelete, onToggleDone }) {
       {/* Top row */}
       <div className="task-card__top">
 
-        {/* Checkbox */}
         <button
           className={`task-card__checkbox ${isDone ? 'checked' : ''}`}
           onClick={() => onToggleDone(task.id)}
@@ -41,12 +40,10 @@ function TaskCard({ task, onEdit, onDelete, onToggleDone }) {
           )}
         </button>
 
-        {/* Title */}
         <span className={`task-card__title ${isDone ? 'done' : ''}`}>
           {task.title}
         </span>
 
-        {/* Edit and Delete buttons */}
         <div className="task-card__actions">
           <button
             className="task-card__btn task-card__btn--edit"
@@ -64,27 +61,22 @@ function TaskCard({ task, onEdit, onDelete, onToggleDone }) {
 
       </div>
 
-      {/* Description */}
-      {task.description && (
-        <p className="task-card__description">{task.description}</p>
+      {/* Notes */}
+      {task.notes && (
+        <p className="task-card__description">{task.notes}</p>
       )}
 
       {/* Footer */}
       <div className="task-card__footer">
 
-        {/* Priority pill */}
         <span
           className="pill"
           style={{ background: priority.bg, color: priority.txt }}
         >
-          <span
-            className="pill__dot"
-            style={{ background: priority.dot }}
-          />
+          <span className="pill__dot" style={{ background: priority.dot }} />
           {priority.label}
         </span>
 
-        {/* Status pill */}
         <span
           className="pill"
           style={{ background: status.bg, color: status.txt }}
@@ -92,7 +84,6 @@ function TaskCard({ task, onEdit, onDelete, onToggleDone }) {
           {status.label}
         </span>
 
-        {/* Category pill */}
         <span
           className="pill"
           style={{ background: '#EDE8D8', color: '#4A5640' }}
@@ -100,7 +91,6 @@ function TaskCard({ task, onEdit, onDelete, onToggleDone }) {
           {task.category}
         </span>
 
-        {/* Due date */}
         <span className={`task-card__due ${isOverdue ? 'overdue' : ''}`}>
           {isOverdue ? 'Overdue · ' : ''}{formattedDate}
         </span>

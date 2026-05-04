@@ -1,23 +1,36 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import TaskCard from '../components/TaskCard'
 import TaskModal from '../components/TaskModal'
 import '../styles/Tasks.css'
-import { SEED_TASKS } from '../constants/taskConfig'
+import { fetchTasks, createTask, updateTask, deleteTask } from '../api'
 
-let nextId = SEED_TASKS.length + 1
 
 function Tasks() {
-  const [tasks, setTasks]       = useState(SEED_TASKS)
-  const [search, setSearch]     = useState('')
-  const [filterP, setFilterP]   = useState('all')
-  const [filterS, setFilterS]   = useState('all')
-  const [modal, setModal]       = useState(null)
+  const [tasks, setTasks]     = useState([])
+  const [search, setSearch]   = useState('')
+  const [filterP, setFilterP] = useState('all')
+  const [filterS, setFilterS] = useState('all')
+  const [modal, setModal]     = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  // ── Load tasks from backend when page opens ──
+  useEffect(() => {
+    fetchTasks()
+      .then(data => {
+        setTasks(data)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error('Failed to fetch tasks:', err)
+        setLoading(false)
+      })
+  }, [])
 
   // ── Stats ──
   const total   = tasks.length
   const done    = tasks.filter(t => t.status === 'done').length
   const inProg  = tasks.filter(t => t.status === 'in_progress').length
-  const overdue = tasks.filter(t => t.status !== 'done' && new Date(t.due) < new Date()).length
+  const overdue = tasks.filter(t => t.status !== 'done' && new Date(t.due_date) < new Date()).length
   const pct     = Math.round((done / total) * 100) || 0
 
   // ── Filtered and sorted list ──
@@ -28,30 +41,37 @@ function Tasks() {
       if (search && !t.title.toLowerCase().includes(search.toLowerCase())) return false
       return true
     })
-    .sort((a, b) => new Date(a.due) - new Date(b.due))
+    .sort((a, b) => new Date(a.due_date) - new Date(b.due_date))
 
   // ── CRUD functions ──
-  const handleSave = (form) => {
+  // ── Save: handles both create and edit ──
+  const handleSave = async (form) => {
+    console.log('Saving form:', form)
     if (form.id) {
-      setTasks(prev => prev.map(t => t.id === form.id ? form : t))
+      const updated = await updateTask(form.id, form)
+      setTasks(prev => prev.map(t => t.id === form.id ? updated : t))
     } else {
-      setTasks(prev => [...prev, { ...form, id: nextId++ }])
+      const created = await createTask(form)
+      setTasks(prev => [...prev, created])
     }
     setModal(null)
   }
 
-  const handleDelete = (id) => {
+  // ── Delete ──
+  const handleDelete = async (id) => {
+    await deleteTask(id)
     setTasks(prev => prev.filter(t => t.id !== id))
   }
 
-  const handleToggleDone = (id) => {
-    setTasks(prev => prev.map(t =>
-      t.id === id
-        ? { ...t, status: t.status === 'done' ? 'todo' : 'done' }
-        : t
-    ))
+  // ── Toggle done/todo ──
+  const handleToggleDone = async (id) => {
+    const task = tasks.find(t => t.id === id)
+    const updated = await updateTask(id, {
+      ...task,
+      status: task.status === 'done' ? 'todo' : 'done'
+    })
+    setTasks(prev => prev.map(t => t.id === id ? updated : t))
   }
-
   return (
     <div className="tasks-page">
 
@@ -144,8 +164,11 @@ function Tasks() {
         </span>
       </div>
 
-      {/* ── Task List ── */}
-      {visible.length === 0 ? (
+      {loading ? (
+        <div className="tasks-empty">
+          <p className="tasks-empty__title">Loading tasks...</p>
+        </div>
+      ) : visible.length === 0 ? (
         <div className="tasks-empty">
           <p className="tasks-empty__title">No tasks found</p>
           <p className="tasks-empty__subtitle">Adjust your filters or add a new task.</p>
