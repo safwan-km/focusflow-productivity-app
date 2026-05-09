@@ -28,6 +28,7 @@ class Task(Base):
     status = Column(String, default="todo")
     category = Column(String, default="General")
     created_at = Column(DateTime, default=datetime.utcnow)
+    completed_at = Column(DateTime, nullable=True)
 
     owner = relationship("User", back_populates="tasks")
     sessions = relationship("FocusSession", back_populates="task")

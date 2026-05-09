@@ -33,4 +33,11 @@ export const createSession = (sessionData) =>
 export const fetchSessions = () =>
   api.get('/sessions').then(res => res.data)
 
+// ── Dashboard ──
+export const fetchDashboard = (weekOffset = 0) =>
+  api.get('/dashboard', {
+    params: { week_offset: weekOffset },
+  }).then(res => res.data)
+
+
 export default api
