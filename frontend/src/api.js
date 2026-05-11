@@ -39,5 +39,8 @@ export const fetchDashboard = (weekOffset = 0) =>
     params: { week_offset: weekOffset },
   }).then(res => res.data)
 
+// ── AI Planner ──
+export const generatePlan = (data) =>
+  api.post('/ai/plan', data).then(res => res.data)
 
 export default api

@@ -1,0 +1,323 @@
+.planner-page {
+  min-height: 100vh;
+  background: #F5F0E4;
+  padding: 40px;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.planner-header {
+  margin-bottom: 32px;
+}
+
+.planner-header__label {
+  font-size: 11px;
+  color: #8A9480;
+  margin: 0 0 4px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.planner-header__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: #1A2610;
+  margin: 0;
+}
+
+/* ── Layout ── */
+.planner-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── Control Card ── */
+.planner-control-card {
+  background: #FDFAF3;
+  border: 1px solid #EDE8D8;
+  border-radius: 14px;
+  padding: 24px;
+  position: sticky;
+  top: 24px;
+}
+
+.planner-control-card__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: #1A2610;
+  margin-bottom: 20px;
+}
+
+.planner-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #8A9480;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.planner-input {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid #E2DECE;
+  background: #F5F0E4;
+  color: #1A2610;
+  font-size: 13px;
+  font-family: 'Instrument Sans', sans-serif;
+  outline: none;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+.planner-input:focus {
+  border-color: #5C7A28;
+}
+
+.planner-generate-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #5C7A28;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Instrument Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-top: 4px;
+}
+
+.planner-generate-btn:hover {
+  background: #4A6320;
+}
+
+.planner-generate-btn:disabled {
+  background: #8A9480;
+  cursor: not-allowed;
+}
+
+.planner-task-count {
+  font-size: 12px;
+  color: #8A9480;
+  margin-top: 14px;
+  text-align: center;
+}
+
+/* ── Right Panel ── */
+.planner-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Empty State ── */
+.planner-empty {
+  background: #FDFAF3;
+  border: 1px solid #EDE8D8;
+  border-radius: 14px;
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.planner-empty__icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+}
+
+.planner-empty__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #1A2610;
+  margin-bottom: 8px;
+}
+
+.planner-empty__subtitle {
+  font-size: 13px;
+  color: #8A9480;
+  line-height: 1.6;
+}
+
+/* ── Plan Header Card ── */
+.planner-result-header {
+  background: #1A2610;
+  border-radius: 14px;
+  padding: 24px 28px;
+}
+
+.planner-result-header__greeting {
+  font-size: 13px;
+  color: #7A9A48;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.planner-result-header__date {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: #F5F0E4;
+  margin-bottom: 4px;
+}
+
+.planner-result-header__focus {
+  font-size: 13px;
+  color: #8A9480;
+}
+
+/* ── Plan Items ── */
+.planner-items-card {
+  background: #FDFAF3;
+  border: 1px solid #EDE8D8;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.planner-item {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #EDE8D8;
+  align-items: start;
+  transition: background 0.15s;
+}
+
+.planner-item:last-child {
+  border-bottom: none;
+}
+
+.planner-item:hover {
+  background: #F5F0E4;
+}
+
+.planner-item--break {
+  background: #F5F0E4;
+  opacity: 0.7;
+}
+
+.planner-item__time {
+  font-size: 12px;
+  font-weight: 600;
+  color: #8A9480;
+  padding-top: 2px;
+}
+
+.planner-item__content {
+  flex: 1;
+}
+
+.planner-item__task {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1A2610;
+  margin-bottom: 4px;
+}
+
+.planner-item__tip {
+  font-size: 12px;
+  color: #8A9480;
+  line-height: 1.5;
+}
+
+.planner-item__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.planner-item__duration {
+  font-size: 12px;
+  font-weight: 600;
+  color: #5C7A28;
+}
+
+.planner-priority-pill {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+}
+
+.planner-priority-pill--high {
+  background: #F5E0D8;
+  color: #7A2810;
+}
+
+.planner-priority-pill--medium {
+  background: #F5E6C8;
+  color: #8A5210;
+}
+
+.planner-priority-pill--low {
+  background: #E8F0DC;
+  color: #3A5A18;
+}
+
+.planner-priority-pill--break {
+  background: #EDE8D8;
+  color: #4A5640;
+}
+
+/* ── Motivation Card ── */
+.planner-motivation {
+  background: #FDFAF3;
+  border: 1px solid #EDE8D8;
+  border-left: 3px solid #7A9A48;
+  border-radius: 14px;
+  padding: 20px 24px;
+}
+
+.planner-motivation__label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #7A9A48;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.planner-motivation__text {
+  font-size: 14px;
+  color: #1A2610;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* ── Loading ── */
+.planner-loading {
+  background: #FDFAF3;
+  border: 1px solid #EDE8D8;
+  border-radius: 14px;
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.planner-loading__spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #EDE8D8;
+  border-top-color: #5C7A28;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+
+.planner-loading__text {
+  font-size: 14px;
+  color: #8A9480;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

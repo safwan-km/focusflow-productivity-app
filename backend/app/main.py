@@ -4,9 +4,11 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 from database import Base, engine, get_db
 from auth import get_current_user
-from routers import tasks, sessions
+from routers import tasks, sessions, ai_planner
 import models
 from datetime import datetime, timedelta,date
+from fastapi import HTTPException
+import schemas, auth
 
 Base.metadata.create_all(bind=engine)
 
@@ -14,7 +16,7 @@ app = FastAPI(title="FocusFlow API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:5173","http://localhost:8000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -23,15 +25,13 @@ app.add_middleware(
 # Register routers
 app.include_router(tasks.router)
 app.include_router(sessions.router)
+app.include_router(ai_planner.router)
 
 @app.get("/")
 def root():
     return {"message": "FocusFlow API is running ✅"}
 
 # ── Auth Routes ──
-from fastapi import HTTPException
-import schemas, auth
-
 @app.post("/auth/register", response_model=schemas.UserOut)
 def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     existing = db.query(models.User).filter(models.User.email == user.email).first()
@@ -187,7 +187,7 @@ def get_dashboard(
 
         tasks_per_day.append({
             "date": str(day),
-            "day": day.strftime("%a")[0],
+            "day": day.strftime("%a"),
             "label": "Today" if day == today else day.strftime("%a, %d %b"),
             "tasks": task_count,
             "is_today": day == today
@@ -195,7 +195,7 @@ def get_dashboard(
 
         focus_hours_per_day.append({
             "date": str(day),
-            "day": day.strftime("%a")[0],
+            "day": day.strftime("%a"),
             "label": "Today" if day == today else day.strftime("%a, %d %b"),
             "hours": round(focus_mins / 60, 1),
             "is_today": day == today
