@@ -71,6 +71,8 @@ function getFormattedDate() {
 }
 
 function getDisplayName(email) {
+  const storedName = localStorage.getItem('userName') || ''
+  if (storedName) return storedName
   if (!email) return 'User'
   const name = email.split('@')[0]
   return name.charAt(0).toUpperCase() + name.slice(1)

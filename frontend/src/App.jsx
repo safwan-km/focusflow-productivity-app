@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard'
 import Tasks from './pages/Tasks'
 import Timer from './pages/Timer'
 import Planner from './pages/Planner'
+import Profile from './pages/Profile'
 
 function AppLayout() {
   const location = useLocation()
@@ -30,6 +31,7 @@ function AppLayout() {
           <Route path="/tasks" element={<PrivateRoute><Tasks /></PrivateRoute>} />
           <Route path="/timer" element={<PrivateRoute><Timer /></PrivateRoute>} />
           <Route path="/planner" element={<PrivateRoute><Planner /></PrivateRoute>} />
+          <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
         </Routes>
       </div>
     </>

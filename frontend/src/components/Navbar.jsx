@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import '../styles/Navbar.css'
 
@@ -52,8 +52,12 @@ function Navbar() {
   if (!token) return null
 
   const email = localStorage.getItem('userEmail') || 'user@email.com'
-  const initials = email.slice(0, 2).toUpperCase()
-  const displayName = email.split('@')[0]
+  const storedName = localStorage.getItem('userName') || ''
+  const initials = storedName
+    ? storedName.slice(0, 2).toUpperCase()
+    : email.slice(0, 2).toUpperCase()
+  const displayName = storedName || email.split('@')[0]
+  const navigate = useNavigate()
 
   return (
     <aside className="sidebar">
@@ -121,12 +125,17 @@ function Navbar() {
         Logout
       </button>
 
-      {/* User */}
-      <div className="sidebar__user">
+      {/* User — clickable to go to profile */}
+      <div
+        className="sidebar__user"
+        onClick={() => navigate('/profile')}
+        style={{ cursor: 'pointer' }}
+      >
         <div className="sidebar__avatar">{initials}</div>
         <div className="sidebar__user-info">
           <p className="sidebar__user-name">{displayName}</p>
-          <p className="sidebar__user-role">Final Year</p>
+          {/* Add role later */}
+          {/* <p className="sidebar__user-role">Role</p> */}
         </div>
       </div>
 

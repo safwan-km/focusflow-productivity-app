@@ -64,3 +64,18 @@ class SessionOut(BaseModel):
     created_at: datetime
     class Config:
         from_attributes = True
+        
+# ── User Profile ──
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    current_password: Optional[str] = None
+    new_password: Optional[str] = None
+
+class UserProfileOut(BaseModel):
+    id: int
+    email: str
+    name: Optional[str]
+    created_at: datetime
+    class Config:
+        from_attributes = True

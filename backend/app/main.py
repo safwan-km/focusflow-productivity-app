@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 from database import Base, engine, get_db
 from auth import get_current_user
-from routers import tasks, sessions, ai_planner
+from routers import tasks, sessions, ai_planner, profile
 import models
 from datetime import datetime, timedelta,date
 from fastapi import HTTPException
@@ -26,6 +26,7 @@ app.add_middleware(
 app.include_router(tasks.router)
 app.include_router(sessions.router)
 app.include_router(ai_planner.router)
+app.include_router(profile.router)
 
 @app.get("/")
 def root():

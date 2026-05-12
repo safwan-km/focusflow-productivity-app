@@ -43,4 +43,11 @@ export const fetchDashboard = (weekOffset = 0) =>
 export const generatePlan = (data) =>
   api.post('/ai/plan', data).then(res => res.data)
 
+// ── Profile ──
+export const fetchProfile = () =>
+  api.get('/profile').then(res => res.data)
+
+export const updateProfile = (data) =>
+  api.put('/profile', data).then(res => res.data)
+
 export default api
